@@ -42,10 +42,12 @@ class Neural_Network(nn.Module):
         #Output Layer
         x = self.layer4(x)
         
-        #Softmax->Loss as output
+        #Softmax Predictions->Loss as output
         
-        act_x = self.activation(x)
-        loss_x = self.loss(act_x,y_labels)
+        predictions = self.activation(x)
+        
+        loss_x = self.loss(predictions,y_labels)
+        
         output = loss_x
         
         return output
@@ -53,11 +55,18 @@ class Neural_Network(nn.Module):
     def training_loop(self, data,y_labels,epochs):
         
         for i in range(0,epochs):
+            
             print(f"Running epoch: {i}")
             loss = self.forward(self, data, y_labels)
             print(f"Loss({i}): {loss}")
+            
+            #Backward Pass
             loss.backward()
+            
+            #Update Gradients
             self.optimizer.step()
             self.optimizer.zero_grad()
+        
+        torch.save(self.state_dict(), "mnist_model.pth")
             
     

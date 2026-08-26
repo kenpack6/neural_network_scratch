@@ -41,9 +41,11 @@ def load_data(data_path):
 def main():
     datasets, loaders = load_data(DATA_PATH)
     
+    training_data = loaders["train"]
+    
     nn_model = Neural_Network()
     
-    nn_model.training_loop()
+    nn_model.training_loop(training_data)
     
 
 if __name__ == "__main__":
