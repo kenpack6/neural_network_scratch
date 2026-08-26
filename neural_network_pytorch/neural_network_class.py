@@ -27,13 +27,17 @@ class Neural_Network(nn.Module):
         self.layer4 = nn.Linear(19,10)
         
         #Optimizer (Stochastic Gradient Descent):
-        self.optimizer = torch.optim.SGD(self.parameters(),0.01)
+        self.optimizer = torch.optim.Adam(self.parameters(),0.01)
+        
+        #Activation
+        
+        self.activation = F.relu()
         
         #Softmax
-        self.activation = F.softmax
+        self.softmax = F.softmax()
         
         #loss function
-        self.loss = F.cross_entropy
+        self.loss = F.cross_entropy()
         
 
     def load_data(self, data_path):
@@ -64,23 +68,20 @@ class Neural_Network(nn.Module):
         return tensor_data_dict, data_loader_dict
 
     
-    def forward(self, input, y_labels): #How can I access my layers that I defined?
-        #Input Layer
-        x = self.layer1(input)
-        print("after layer1:", x.shape)
-        #Hidden Layers
-        hidden_layers = [self.layer2, self.layer3]
-        for layer in hidden_layers:
+    def forward(self, inputs, y_labels): #How can I access my layers that I defined?
+        # Input Layer
+        x = self.layer1(inputs)
+        
+        layers = [self.activation, self.layer2, self.activation, self.layer3, self.activation]
+        for layer in layers:
             x = layer(x)
             
         #Output Layer
         x = self.layer4(x)
         
-        #Softmax Predictions->Loss as output
-        
-        predictions = self.activation(x)
-        
-        loss_x = self.loss(predictions,y_labels)
+        #Softmax (included in loss) -> Predictions->Loss as output
+            
+        loss_x = self.loss(x,y_labels)
         
         output = loss_x
         
