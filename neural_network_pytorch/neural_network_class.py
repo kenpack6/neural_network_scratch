@@ -1,5 +1,7 @@
 import torch
 import torch.nn as nn
+import torch.autograd 
+import torch.optim 
 import torch.nn.functional as F
 
 #I want to copy the implementation from 3Blue1Brown, so we have 784 inputs and two hidden layers with 19 neurons and 10 outputs
@@ -13,10 +15,13 @@ class Neural_Network(nn.Module):
         
         #Hidden Layers
         self.layer2 = nn.Linear(19,19,requires_grad_=True)
-        self.layer3 = nn.Linear(19,10,requires_grad_=True)
+        self.layer3 = nn.Linear(19,19,requires_grad_=True)
+
+        #Output Layer
+        self.layer4 = nn.Linear(19,10,requires_grad_=True)
         
-        #Output
-        self.layer4 = []
+        #Optimizer:
+        self.optimizer = torch.optim.SGD()
         
         #Softmax
         self.activation = F.softmax
@@ -40,7 +45,11 @@ class Neural_Network(nn.Module):
     def training_loop(self, input, epochs):
         
         for i in range(0,epochs):
-            print("Running epoch: 1")
-            x = self.forward(self, input)
-            x.backward()
+            print(f"Running epoch: {i}")
+            loss = self.forward(self, input)
+            print(f"Forward Pass Output {i}: {x}")
+            loss.backward()
+            self.optimizer.step()
+            self.optimizer.zero_grad()
+            
     

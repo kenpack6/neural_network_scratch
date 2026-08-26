@@ -1,5 +1,6 @@
 #This is to do some more practice with PyTorch as well.
 import torch
+from neural_network_class import Neural_Network
 from torch.utils.data import TensorDataset, DataLoader
 import pickle
 import gzip
@@ -26,19 +27,22 @@ def load_data(data_path):
         images, labels = data
         tensor_data_dict[name] = TensorDataset(torch.tensor(images, dtype=torch.float32),
                                                torch.tensor(labels,dtype=torch.long))
-    
+        
+    # Define DataLoaders
     data_loader_dict = {}
     for name, item in tensor_data_dict.items():
-        
         loader = DataLoader(item,batch_size=32,shuffle=True)
         data_loader_dict[name] = loader
         
     return tensor_data_dict, data_loader_dict
     
-    
+
 
 def main():
-    load_data(DATA_PATH)
+    datasets, loaders = load_data(DATA_PATH)
+    
+    nn_model = Neural_Network()
+    
 
 if __name__ == "__main__":
     main()
