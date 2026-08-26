@@ -14,6 +14,8 @@ class Neural_Network(nn.Module):
     def __init__(self):
         super().__init__()
         
+        #NOTE: nn.Linear(batch_size, features) or nn.Linear(input_features, output_features) row x column in the layer1 case 32 images by 784 pixels
+
         #Input Layer
         self.layer1 = nn.Linear(784,19) #Built in module that applies a linear transformation y = xA^T + b (We pass in our data here)
         
@@ -25,7 +27,7 @@ class Neural_Network(nn.Module):
         self.layer4 = nn.Linear(19,10)
         
         #Optimizer (Stochastic Gradient Descent):
-        self.optimizer = torch.optim.SGD()
+        self.optimizer = torch.optim.SGD(self.parameters(),0.01)
         
         #Softmax
         self.activation = F.softmax
@@ -33,28 +35,6 @@ class Neural_Network(nn.Module):
         #loss function
         self.loss = F.cross_entropy
         
-    
-    def forward(self, input, y_labels): #How can I access my layers that I defined?
-        #Input Layer
-        x = self.layer1(input)
-        
-        #Hidden Layers
-        hidden_layers = [self.layer1, self.layer2]
-        for layer in hidden_layers:
-            x = layer(x)
-            
-        #Output Layer
-        x = self.layer4(x)
-        
-        #Softmax Predictions->Loss as output
-        
-        predictions = self.activation(x)
-        
-        loss_x = self.loss(predictions,y_labels)
-        
-        output = loss_x
-        
-        return output
 
     def load_data(self, data_path):
         """Loads data and return two dictionaries containing datasets and loaders"""
@@ -83,15 +63,41 @@ class Neural_Network(nn.Module):
             
         return tensor_data_dict, data_loader_dict
 
+    
+    def forward(self, input, y_labels): #How can I access my layers that I defined?
+        #Input Layer
+        x = self.layer1(input)
+        print("after layer1:", x.shape)
+        #Hidden Layers
+        hidden_layers = [self.layer2, self.layer3]
+        for layer in hidden_layers:
+            x = layer(x)
+            
+        #Output Layer
+        x = self.layer4(x)
+        
+        #Softmax Predictions->Loss as output
+        
+        predictions = self.activation(x)
+        
+        loss_x = self.loss(predictions,y_labels)
+        
+        output = loss_x
+        
+        return output
+
+
     def training_loop(self,data_path,epochs):
         
-        __, loaders = self.load_data(self, data_path)
+        __, loaders = self.load_data(data_path)
+        train_loader = loaders["test"]
         
         for i in range(0,epochs):
-            for batch in loaders:
+            
+            print(f"Running epoch: {i+1}")
+            for batch in train_loader:
                 data, y_labels = batch
-                print(f"Running epoch: {i}")
-                loss = self.forward(self, data, y_labels)
+                loss = self.forward(data, y_labels)
                 print(f"Loss({i}): {loss}")
                 
                 #Backward Pass
@@ -101,6 +107,6 @@ class Neural_Network(nn.Module):
                 self.optimizer.step()
                 self.optimizer.zero_grad()
         
-        torch.save(self.state_dict(), "mnist_model.pth")
+        torch.save(self.state_dict(), f"mnist_model_{epochs}.pth")
             
     
