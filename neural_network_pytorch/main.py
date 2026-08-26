@@ -9,7 +9,7 @@ CURRENT_DIR = Path(__name__).resolve().parent
 DATA_PATH = CURRENT_DIR.parent / "dataset" / "mnist.pkl.gz"
 
 def load_data(data_path):
-    
+    """Loads data and return two dictionaries containing datasets and loaders"""
     with gzip.open(data_path, "r") as file:
         train_data, validation_data, test_data = pickle.load(file, encoding="latin1")
         print(type(train_data))
@@ -23,14 +23,18 @@ def load_data(data_path):
     tensor_data_dict = {}
     for name, data in raw_dict.items():
         #Split labels and images
-        images, labels = raw_dict[name]
-        tensor_data_dict[name] = TensorDataset(torch.tensor(images, dtype=torch.float32), torch.tensor(labels,dtype=torch.long))
+        images, labels = data
+        tensor_data_dict[name] = TensorDataset(torch.tensor(images, dtype=torch.float32),
+                                               torch.tensor(labels,dtype=torch.long))
+    
+    data_loader_dict = {}
+    for name, item in tensor_data_dict.items():
         
-    train_loader = DataLoader(train_data,batch_size=32,shuffle=True)
+        loader = DataLoader(item,batch_size=32,shuffle=True)
+        data_loader_dict[name] = loader
+        
+    return tensor_data_dict, data_loader_dict
     
-    validation_loader = DataLoader(validation_data,batch_size=32,shuffle=True)
-    
-    test_loader = DataLoader(test_data,batch_size=32,shuffle=True)
     
 
 def main():
