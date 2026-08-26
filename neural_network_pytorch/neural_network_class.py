@@ -22,7 +22,7 @@ class Neural_Network(nn.Module):
         self.activation = F.softmax
         
         #loss function
-        self.loss = F.relu
+        self.loss = F.cross_entropy
         
     
     def forward(self, input): #How can I access my layers that I defined?
@@ -37,4 +37,10 @@ class Neural_Network(nn.Module):
         output = loss_x
         return output
     
+    def training_loop(self, input, epochs):
+        
+        for i in range(0,epochs):
+            print("Running epoch: 1")
+            x = self.forward(self, input)
+            x.backward()
     
