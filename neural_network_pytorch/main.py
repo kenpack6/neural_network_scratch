@@ -17,6 +17,7 @@ def test_model(model,param_path,images, labels):
     with torch.no_grad():
         logits = model(images)
         prediction = torch.argmax(logits, dim=1)
+        print(f"Prediction: {prediction}\nReal: {labels}")
 
 def main():
     parameters = CURRENT_DIR / "mnist_model_100.pth"
@@ -27,7 +28,7 @@ def main():
     images = samples["images"]
     labels = samples["labels"]
 
-    test_model(nn_model, parameters, images)
+    test_model(nn_model, parameters, images,labels)
     
 
 if __name__ == "__main__":

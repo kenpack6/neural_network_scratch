@@ -8,7 +8,7 @@ import pickle
 import gzip
 from pathlib import Path
 
-#I want to copy the implementation from 3Blue1Brown, so we have 784 inputs and two hidden layers with 19 neurons and 10 outputs
+#I want to copy the implementation from 3Blue1Brown, so we have 784 inputs and three hidden layers with 19 neurons and 10 outputs
 
 class Neural_Network(nn.Module):
     def __init__(self):
@@ -30,7 +30,6 @@ class Neural_Network(nn.Module):
         self.optimizer = torch.optim.Adam(self.parameters(),0.01)
         
         #Activation
-        
         self.activation = F.relu
         
         #Softmax
@@ -82,11 +81,7 @@ class Neural_Network(nn.Module):
         output = x
         
         return output
-
-        #Softmax (included in loss) -> Predictions->Loss as output
-            
-
-
+        
     def training_loop(self,data_path,epochs):
         
         __, loaders = self.load_data(data_path)
@@ -97,7 +92,7 @@ class Neural_Network(nn.Module):
             print(f"Running epoch: {i+1}")
             for batch in train_loader:
                 data, y_labels = batch
-                output = self.forward(data, y_labels)
+                output = self.forward(data)
                 loss = self.loss(output,y_labels)
                 #Backward Pass
                 loss.backward()
