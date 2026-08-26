@@ -17,3 +17,6 @@ targets = torch.tensor(
      [1.0],
      [0.0]]
 )
+
+print(inputs.shape)
+print(targets.shape)
