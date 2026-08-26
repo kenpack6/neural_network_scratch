@@ -43,6 +43,8 @@ def main():
     
     nn_model = Neural_Network()
     
+    nn_model.training_loop()
+    
 
 if __name__ == "__main__":
     main()
