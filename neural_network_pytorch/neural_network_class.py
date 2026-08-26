@@ -26,7 +26,7 @@ class Neural_Network(nn.Module):
         #Output Layer
         self.layer4 = nn.Linear(19,10)
         
-        #Optimizer (Stochastic Gradient Descent):
+        #Optimizer (Adam):
         self.optimizer = torch.optim.Adam(self.parameters(),0.01)
         
         #Activation
