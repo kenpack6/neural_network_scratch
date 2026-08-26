@@ -31,13 +31,13 @@ class Neural_Network(nn.Module):
         
         #Activation
         
-        self.activation = F.relu()
+        self.activation = F.relu
         
         #Softmax
-        self.softmax = F.softmax()
+        self.softmax = F.softmax
         
         #loss function
-        self.loss = F.cross_entropy()
+        self.loss = F.cross_entropy
         
 
     def load_data(self, data_path):
@@ -99,7 +99,6 @@ class Neural_Network(nn.Module):
             for batch in train_loader:
                 data, y_labels = batch
                 loss = self.forward(data, y_labels)
-                print(f"Loss({i}): {loss}")
                 
                 #Backward Pass
                 loss.backward()
@@ -107,6 +106,7 @@ class Neural_Network(nn.Module):
                 #Update Gradients
                 self.optimizer.step()
                 self.optimizer.zero_grad()
+            print(f"Loss({i+1}): {loss}")
         
         torch.save(self.state_dict(), f"mnist_model_{epochs}.pth")
             

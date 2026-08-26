@@ -11,7 +11,7 @@ DATA_PATH = CURRENT_DIR.parent / "dataset" / "mnist.pkl.gz"
 def main():    
     nn_model = Neural_Network()
     
-    nn_model.training_loop(DATA_PATH, 1)
+    nn_model.training_loop(DATA_PATH, 100)
     
 
 if __name__ == "__main__":
