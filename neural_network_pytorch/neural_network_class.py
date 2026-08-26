@@ -68,7 +68,7 @@ class Neural_Network(nn.Module):
         return tensor_data_dict, data_loader_dict
 
     
-    def forward(self, inputs, y_labels): #How can I access my layers that I defined?
+    def forward(self, inputs): #How can I access my layers that I defined?
         # Input Layer
         x = self.layer1(inputs)
         
@@ -79,13 +79,12 @@ class Neural_Network(nn.Module):
         #Output Layer
         x = self.layer4(x)
         
-        #Softmax (included in loss) -> Predictions->Loss as output
-            
-        loss_x = self.loss(x,y_labels)
-        
-        output = loss_x
+        output = x
         
         return output
+
+        #Softmax (included in loss) -> Predictions->Loss as output
+            
 
 
     def training_loop(self,data_path,epochs):
@@ -98,8 +97,8 @@ class Neural_Network(nn.Module):
             print(f"Running epoch: {i+1}")
             for batch in train_loader:
                 data, y_labels = batch
-                loss = self.forward(data, y_labels)
-                
+                output = self.forward(data, y_labels)
+                loss = self.loss(output,y_labels)
                 #Backward Pass
                 loss.backward()
                 

@@ -11,17 +11,24 @@ DATA_PATH = CURRENT_DIR.parent / "dataset" / "mnist.pkl.gz"
 def run_model(model,epochs):        
     model.training_loop(DATA_PATH, epochs)
 
-def test_model(model,param_path,image):
+def test_model(model,param_path,images, labels):
     
     model.load_state_dict(torch.load(param_path))
     with torch.no_grad():
-        logits = model(image)
+        logits = model(images)
         prediction = torch.argmax(logits, dim=1)
 
 def main():
     parameters = CURRENT_DIR / "mnist_model_100.pth"
     nn_model = Neural_Network()
-    test_model(nn_model,parameters,)
+    
+    samples = torch.load("mnist_samples.pt", weights_only=True)
+
+    images = samples["images"]
+    labels = samples["labels"]
+
+    test_model(nn_model, parameters, images)
+    
 
 if __name__ == "__main__":
     main()
