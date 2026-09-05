@@ -9,8 +9,10 @@ class ReLU:
         self.inputs = inputs #this is to store the inputs for back propagation
         self.output = np.maximum(0, inputs)
         
-    def backward(self):
-        pass
+    def backward(self, dout):
+        dinputs = dout.copy()
+        dinputs[self.inputs <= 0] = 0 #Sets all dinputs that are less than or equal to zero to zero
+        return dinputs
 
 class SoftMax:
     def forward(self, inputs): 
@@ -29,6 +31,7 @@ class CrossEntropy:
         self.true_labels = true_labels
         self.inputs = inputs 
         self.output = -np.sum(true_labels*np.log(np.clip(inputs,1e-7,1-1e-7)),axis=1, keepdims=True) # Inputs can equal 0 so we need to do np.clip (1e-7,1-1e-7) this is the range just above 0 and just below 1 which is optimal for backprop apparently
+        
     def backward(self):
         clipped_inputs = np.clip(self.inputs,1e-7, 1 - 1e-7) # Clips input to avoid division by zero
         dinputs = -self.true_labels / clipped_inputs # Derivative of cross entropy with respect to input function
