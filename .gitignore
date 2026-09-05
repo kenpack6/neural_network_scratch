@@ -1,5 +1,5 @@
-#MNIST data
-dataset\mnist.pkl.gz
+# Dataset files
+dataset/
 
 #uv venv files
 venv/
