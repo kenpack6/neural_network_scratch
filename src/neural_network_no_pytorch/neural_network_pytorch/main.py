@@ -1,6 +1,6 @@
 #This is to do some more practice with PyTorch as well.
 import torch
-from neural_network_class import Neural_Network
+from neural_network_no_pytorch.neural_network_pytorch.neural_network_class import Neural_Network
 import pickle
 import gzip
 from pathlib import Path
