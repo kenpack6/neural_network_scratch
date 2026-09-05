@@ -1,4 +1,4 @@
-from layer_class import Layer_Dense
+from neural_network_no_pytorch.layer_class import Layer_Dense
 import numpy as np
 
 class Network:

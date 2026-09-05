@@ -1,0 +1,20 @@
+[project]
+name = "my-first-neural-network"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Kenneth Packard", email = "kenpack6@byu.edu" }
+]
+requires-python = ">=3.14"
+dependencies = [
+    "numpy>=2.5.2",
+    "torch>=2.14.0",
+]
+
+[project.scripts]
+my-first-neural-network = "my_first_neural_network:main"
+
+[build-system]
+requires = ["uv_build>=0.12.10,<0.13.0"]
+build-backend = "uv_build"

@@ -1,6 +1,5 @@
 import sys
 import numpy as np
-import matplotlib
 
 #every neuron has a unique connection to every previous neuron
 
