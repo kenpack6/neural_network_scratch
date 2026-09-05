@@ -31,20 +31,30 @@ neural_network = Network(layers)
 soft_max = SoftMax() #Converts logits into a probability distribution
 loss_function = CrossEntropy()
 
-#TRAINING LOOP
+def train_run(epochs):
+    """Runs full training loop according to number of epochs"""
 
-epochs = 0
+    for epoch in range(0,epochs):
+        print(f"Running Epoch ({epoch})...")
+        
+        raw_output = neural_network.forward_pass(input_layer)
+        soft_max.forward(raw_output)
+        normalized = soft_max.output
+        
+        loss_function.forward(normalized, one_hot_encoded_labels)
 
-for epoch in range(0,epochs):
-    raw_output = neural_network.forward_pass(input_layer)
-    soft_max.forward(raw_output)
-    normalized = soft_max.output
-    
-    loss_function.forward(normalized, one_hot_encoded_labels)
+        loss_func_output = loss_function.output
+        print(np.mean(loss_func_output))
+        #Calculate initial gradient from loss function:
+        
+        dout = loss_function.backward()
+        
+        neural_network.back_prop(dout, one_hot_encoded_labels)
+        neural_network.update(1)
 
-    loss_func_output = loss_function.output
-    print(np.mean(loss_func_output))
 
-    neural_network.back_prop(normalized, one_hot_encoded_labels)
-    neural_network.update(1)
-    
+def main():
+    train_run()
+
+if __name__ == "__main__":
+    main()
