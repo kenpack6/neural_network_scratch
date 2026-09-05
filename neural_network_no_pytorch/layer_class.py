@@ -9,9 +9,8 @@ class ReLU: #This class does not require a __init__
         self.inputs = inputs #this is to store the inputs for back propagation (look into this later)
         self.output = np.maximum(0, inputs)
         
-    def backward(self,dout):
-        self.dinput = dout * (self.inputs>0)
-        return self.dinput
+    def backward(self):
+        pass
 
 class SoftMax:
     def forward(self, inputs): 
@@ -36,18 +35,13 @@ class Layer_Dense:
         self.biases = np.zeros((1, n_neurons)) # must take in a tuple when determining the shape
     
     
-    def forward(self, inputs): # try writing the forward pass on your own.
-        #So the forward pass involves the Ax + b calculation I believe.
+    def forward(self, inputs):
         self.inputs = inputs
         self.output = np.dot(inputs, self.weights) + self.biases
         
-    def backward(self, dout): # dout is the gradient of the loss function with respect to the layers output 
-        self.dW = np.dot(self.inputs.T,dout) #dW is the gradient for the weights (why do I need to take the transpose? what is inputs)
-        self.db = np.sum(dout,axis=0)
-        self.dinput = np.dot(dout,self.weights.T)
-    
-        return self.dinput
-    
+    def backward(): # dout is the gradient of the loss function with respect to the layers output 
+        pass
+        
     def update(self, learning_rate):
         
        self.weights = self.weights - self.dW * learning_rate
