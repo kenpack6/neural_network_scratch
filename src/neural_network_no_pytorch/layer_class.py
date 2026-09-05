@@ -15,17 +15,24 @@ class ReLU:
 class SoftMax:
     def forward(self, inputs): 
         self.inputs = inputs #this is to store the inputs for back propagation
-        inputs -= np.max(inputs, axis=1, keepdims= True) #ensures stability
-        self.output = np.exp(inputs)/np.sum(np.exp(inputs),axis=1, keepdims=True) 
-    def backward(self):
-        pass
+        shifted_inputs = inputs - np.max(inputs, axis=1, keepdims=True)
+        self.output = np.exp(shifted_inputs)/np.sum(np.exp(shifted_inputs),axis=1, keepdims=True) 
+    def backward(self,dout):
+        #Derivative of softmax is P_i(1 - P_i) 
+        P = self.output
+        dot = np.sum(dout * P, axis=1, keepdims=True)
+        dinputs = P * (dout - dot)
+        return dinputs
         
 class CrossEntropy:
     def forward(self, inputs, true_labels):
+        self.true_labels = true_labels
         self.inputs = inputs 
         self.output = -np.sum(true_labels*np.log(np.clip(inputs,1e-7,1-1e-7)),axis=1, keepdims=True) # Inputs can equal 0 so we need to do np.clip (1e-7,1-1e-7) this is the range just above 0 and just below 1 which is optimal for backprop apparently
     def backward(self):
-        pass
+        clipped_inputs = np.clip(self.inputs,1e-7, 1 - 1e-7) # Clips input to avoid division by zero
+        dinputs = -self.true_labels / clipped_inputs # Derivative of cross entropy with respect to input function
+        return dinputs
             
 class Layer_Dense:
     def __init__(self, n_inputs, n_neurons): 

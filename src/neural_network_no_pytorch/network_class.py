@@ -24,7 +24,7 @@ class Network:
                 layer.update(learning_rate)
     
     
-    def back_prop():
+    def back_prop(self):
         """Calculates the gradient with respect to all weights"""
         pass
    
