@@ -52,13 +52,17 @@ class Layer_Dense:
         #Backwards pass for weights
         dW = self.inputs.T @ dout
         db = np.sum(dout, axis=0) #rows are axis=0 columns are axis = 1
-        dX = dout @ self.weight.T
+        dinputs = dout @ self.weight.T
+        
+        return dinputs
         
         
-    def update(self, learning_rate):
-        """Updates"""
-        pass
+    def update(self, learning_rate,gradient_W,gradient_b):
+        """Updates weights and biases and returns new weights and biases"""
+        W_new = self.weights - (learning_rate * gradient_W)
+        b_new = self.biases - (learning_rate * gradient_b)
         
+        return W_new, b_new      
         
 # When you save a model you really are just saving the weights and biases
 #We usually initialize weights as random values between a small interval
