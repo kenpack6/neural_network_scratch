@@ -20,7 +20,6 @@ class SoftMax:
         shifted_inputs = inputs - np.max(inputs, axis=1, keepdims=True)
         self.output = np.exp(shifted_inputs)/np.sum(np.exp(shifted_inputs),axis=1, keepdims=True) 
     def backward(self,dout):
-        #Derivative of softmax is P_i(1 - P_i) 
         P = self.output
         dot = np.sum(dout * P, axis=1, keepdims=True)
         dinputs = P * (dout - dot)
@@ -48,8 +47,13 @@ class Layer_Dense:
         self.output = np.dot(inputs, self.weights) + self.biases
         
     def backward(self, dout): #dout represents the gradient from the layer after it
-        """Applies the chain rule locally and passes the resulting gradient to the previous layer""" 
-        pass
+        """Applies the chain rule locally and passes the resulting gradient to the previous layer.
+            Calculates weight gradient, bias gradient and input gradient"""
+        #Backwards pass for weights
+        dW = self.inputs.T @ dout
+        db = np.sum(dout, axis=0) #rows are axis=0 columns are axis = 1
+        dX = dout @ self.weight.T
+        
         
     def update(self, learning_rate):
         """Updates"""

@@ -23,9 +23,9 @@ test_df_images, test_df_labels = test_data
 #Create one hot encoded labels
 one_hot_encoded_labels = np.eye(10)[training_df_labels]
 
-input_layer = training_df_images
+input_layer = training_df_images #Input Layer initialization
 
-layers = [Layer_Dense(784, 15),ReLU(),Layer_Dense(15,15),ReLU(),Layer_Dense(15, 10)]
+layers = [Layer_Dense(784, 15),ReLU(),Layer_Dense(15,15),ReLU(),Layer_Dense(15, 10)] #Layer_Dense(15,10) = output layer
 
 neural_network = Network(layers)
 soft_max = SoftMax() #Converts logits into a probability distribution
