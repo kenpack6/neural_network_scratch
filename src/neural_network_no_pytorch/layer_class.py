@@ -49,12 +49,14 @@ class Layer_Dense:
     def backward(self, dout): #dout represents the gradient from the layer after it
         """Applies the chain rule locally and passes the resulting gradient to the previous layer.
             Calculates weight gradient, bias gradient and input gradient"""
+            
         #Backwards pass for weights
         dW = self.inputs.T @ dout
+        #Backwards pass for biases
         db = np.sum(dout, axis=0) #rows are axis=0 columns are axis = 1
         dinputs = dout @ self.weight.T
         
-        return dinputs
+        return dW, db, dinputs
         
         
     def update(self, learning_rate,gradient_W,gradient_b):
@@ -64,21 +66,3 @@ class Layer_Dense:
         
         return W_new, b_new      
         
-# When you save a model you really are just saving the weights and biases
-#We usually initialize weights as random values between a small interval
-
-#Input → Dense1 → ReLU → Dense2 → Softmax → Loss
-
-# In backprop the algorithm looks like:
-
-# Loss + Softmax → computes dout = predicted - true_labels
-# Dense2 receives dout, computes dW2, db2, dinput2 → updates W2, b2, passes dinput2 back
-# ReLU receives dinput2 as its dout, computes dinput3 → passes it back
-# Dense1 receives that as its dout, computes dW1, db1, dinput1 → updates W1, b1
-
-# Each layer only ever sees the gradient coming from ahead — it doesn't need to know anything about the rest of the network.
-# Does seeing it traced through your actual network make it click?
-
-#dout is the gradient from the layer ahead of the current layer
-
-#NOTE: @ is the matrix multiplication operator, it is equivalent to np.matmul() while * represents element-wise multiplication

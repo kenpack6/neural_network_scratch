@@ -17,12 +17,18 @@ class Network:
     
         return current_input
     
+    def backwards_pass(self):
+            """Calculates the gradient with respect to all weights"""      
+            dinput = []      
+            for layer in reversed(self.layers):
+                layer.backward(dinput)
+                
+            
+            
+        
     def update(self, learning_rate):
         """Updates weights and biases according to the learning rate"""
-        
-    
-    
-    def back_prop(self):
-        """Calculates the gradient with respect to all weights"""
         pass
+    
+
    

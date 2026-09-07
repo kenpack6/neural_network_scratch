@@ -6,8 +6,6 @@ from pathlib import Path
 import pickle
 
 #PATHS 
-
-#Data Initialization
 CURRENT_DIR = Path(__file__).resolve().parent
 file_path = CURRENT_DIR / "dataset" / "mnist.pkl.gz"
 
