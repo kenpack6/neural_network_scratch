@@ -49,7 +49,7 @@ This project uses [uv](https://docs.astral.sh/uv/) for dependency management and
 
 ```bash
 # Clone the repo
-git clone https://github.com/<your-username>/neural_network_scratch.git
+git clone https://github.com/kenpack6/neural_network_scratch.git
 cd neural_network_scratch
 
 # Install dependencies
