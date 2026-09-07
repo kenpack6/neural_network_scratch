@@ -19,9 +19,7 @@ class Network:
     
     def update(self, learning_rate):
         """Updates weights and biases according to the learning rate"""
-        for layer in self.layers:
-            if type(layer) == Layer_Dense:
-                layer.update(learning_rate)
+        
     
     
     def back_prop(self):
