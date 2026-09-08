@@ -66,7 +66,7 @@ def accuracy(model, inputs, labels):
 
 
 def main():
-    train_run(10,0.01,42)
+    train_run(10,0.01)
 
 if __name__ == "__main__":
     main()
