@@ -23,9 +23,6 @@ class Network:
             for layer in reversed(self.layers)[1:]:
                 dout = layer.backward(dout)
                 
-            
-            
-        
     def update(self, learning_rate):
         """Updates weights and biases according to the learning rate"""
         

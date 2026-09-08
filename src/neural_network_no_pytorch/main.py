@@ -18,19 +18,20 @@ training_df_images, training_df_labels = training_data #So we have 28x28 = 784. 
 valid_df_images, valid_df_labels = validation_data
 test_df_images, test_df_labels = test_data
 
-#Create one hot encoded labels
-one_hot_encoded_labels = np.eye(10)[training_df_labels]
 
-input_layer = training_df_images #Input Layer initialization
-
-layers = [Layer_Dense(784, 15),ReLU(),Layer_Dense(15,15),ReLU(),Layer_Dense(15, 10)] #Layer_Dense(15,10) = output layer
-
-neural_network = Network(layers)
-soft_max = SoftMax() #Converts logits into a probability distribution
-loss_function = CrossEntropy()
-
-def train_run(epochs):
+def train_run(epochs, learning_rate):
     """Runs full training loop according to number of epochs"""
+    
+    #Create one hot encoded labels
+    one_hot_encoded_labels = np.eye(10)[training_df_labels]
+
+    input_layer = training_df_images #Input Layer initialization
+
+    layers = [Layer_Dense(784, 15),ReLU(),Layer_Dense(15,15),ReLU(),Layer_Dense(15, 10)] #Layer_Dense(15,10) = output layer
+
+    neural_network = Network(layers)
+    soft_max = SoftMax() #Converts logits into a probability distribution
+    loss_function = CrossEntropy()
 
     for epoch in range(0,epochs):
         print(f"Running Epoch ({epoch})...")
@@ -47,13 +48,25 @@ def train_run(epochs):
         #Calculate initial gradient from loss function:
         
         dout = loss_function.backward()
-        
         neural_network.backwards_pass(dout)
-        neural_network.update(1)
+        neural_network.update(learning_rate)
+        
+        acc = accuracy(neural_network, valid_df_images, valid_df_labels)
+        print(f"Validation accuracy: {acc}")
+
+def accuracy(model, inputs, labels):
+    outputs = model.forward_pass(inputs)
+    SoftMax.forward(outputs)
+    probabilities = SoftMax.output
+
+    predicted = np.argmax(probabilities, axis=1)
+    actual = labels
+
+    return np.mean(predicted == actual)
 
 
 def main():
-    train_run()
+    train_run(10,0.01,42)
 
 if __name__ == "__main__":
     main()

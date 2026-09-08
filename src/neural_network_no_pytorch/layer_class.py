@@ -55,7 +55,7 @@ class Layer_Dense:
         #Backwards pass for weights
         self.dW = self.inputs.T @ dout
         #Backwards pass for biases
-        self.dW = np.sum(dout, axis=0) #rows are axis=0 columns are axis = 1
+        self.db = np.sum(dout, axis=0, keepdims=True) #rows are axis=0 columns are axis = 1
         dinputs = dout @ self.weights.T
         
         return dinputs
