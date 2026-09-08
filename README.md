@@ -29,6 +29,7 @@ neural_network_scratch/
 │       └── mnist_model_*.pth          # Saved PyTorch model checkpoints
 ├── pyproject.toml
 └── uv.lock
+└── nn_derivations.pdf                 # Handwritten derivations and notes during implementation
 ```
 
 ## Status
