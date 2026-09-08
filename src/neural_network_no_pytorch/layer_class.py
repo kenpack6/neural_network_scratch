@@ -46,23 +46,19 @@ class Layer_Dense:
         self.inputs = inputs
         self.output = np.dot(inputs, self.weights) + self.biases
         
+    #dout = “the gradient arriving at this layer from the layer ahead.”
+    
     def backward(self, dout): #dout represents the gradient from the layer after it
         """Applies the chain rule locally and passes the resulting gradient to the previous layer.
             Calculates weight gradient, bias gradient and input gradient"""
             
         #Backwards pass for weights
-        dW = self.inputs.T @ dout
+        self.dW = self.inputs.T @ dout
         #Backwards pass for biases
-        db = np.sum(dout, axis=0) #rows are axis=0 columns are axis = 1
-        dinputs = dout @ self.weight.T
+        self.dW = np.sum(dout, axis=0) #rows are axis=0 columns are axis = 1
+        dinputs = dout @ self.weights.T
         
-        return dW, db, dinputs
+        return dinputs
         
         
-    def update(self, learning_rate,gradient_W,gradient_b):
-        """Updates weights and biases and returns new weights and biases"""
-        W_new = self.weights - (learning_rate * gradient_W)
-        b_new = self.biases - (learning_rate * gradient_b)
-        
-        return W_new, b_new      
         

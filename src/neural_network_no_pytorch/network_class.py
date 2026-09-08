@@ -17,18 +17,22 @@ class Network:
     
         return current_input
     
-    def backwards_pass(self):
+    def backwards_pass(self,dout):
             """Calculates the gradient with respect to all weights"""      
-            dinput = []      
-            for layer in reversed(self.layers):
-                layer.backward(dinput)
+               #dout is the loss function gradient
+            for layer in reversed(self.layers)[1:]:
+                dout = layer.backward(dout)
                 
             
             
         
     def update(self, learning_rate):
         """Updates weights and biases according to the learning rate"""
-        pass
-    
+        
+        #Weight update
+        for layer in self.layers:
+            if hasattr(layer, "weights"):
+                layer.weights -= learning_rate * layer.dW
+                layer.biaases -= learning_rate * layer.db
 
    

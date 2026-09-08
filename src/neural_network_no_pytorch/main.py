@@ -43,11 +43,12 @@ def train_run(epochs):
 
         loss_func_output = loss_function.output
         print(np.mean(loss_func_output))
+        
         #Calculate initial gradient from loss function:
         
         dout = loss_function.backward()
         
-        neural_network.back_prop(dout, one_hot_encoded_labels)
+        neural_network.backwards_pass(dout)
         neural_network.update(1)
 
 
