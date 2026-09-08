@@ -7,7 +7,7 @@ import pickle
 
 #PATHS 
 CURRENT_DIR = Path(__file__).resolve().parent
-file_path = CURRENT_DIR / "dataset" / "mnist.pkl.gz"
+file_path = CURRENT_DIR.parent.parent / "dataset" / "mnist.pkl.gz"
 
 file = gzip.open(file_path,'rb')
 data = pickle.load(file, encoding="latin1")

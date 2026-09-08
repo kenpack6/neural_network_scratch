@@ -20,7 +20,7 @@ class Network:
     def backwards_pass(self,dout):
             """Calculates the gradient with respect to all weights"""      
                #dout is the loss function gradient
-            for layer in reversed(self.layers)[1:]:
+            for layer in reversed(self.layers[:-1]):
                 dout = layer.backward(dout)
                 
     def update(self, learning_rate):
